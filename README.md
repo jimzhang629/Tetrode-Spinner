@@ -1,2 +1,2 @@
 # Tetrode-Spinner
-Description of how to make a tetrode spinner without yielding to the corporate agenda
+Make a more affordable tetrode spinner to spin your electrodes together without giving in to Big Neuro
