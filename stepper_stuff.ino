@@ -2,7 +2,6 @@
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
 #include <LiquidCrystal.h>
-#include <AccelStepper.h>
 
 int lcd_key = 0;
 int adc_key_in = 0;
@@ -38,12 +37,11 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 // Or, create it with a different I2C address (say for stacking)
 // Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61); 
 
-Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 1);
+Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 // Connect a stepper motor with 200 steps per revolution (1.8 degree)
 // to motor port #2 (M3 and M4)
 
-int steps_per_rev = 100;
-int revolutions = 1;
+int steps_per_rev = 200; //how many steps it has
 int rev_right = 0;
 int rev_left = 0;
 
@@ -54,7 +52,7 @@ void setup() {
   AFMS.begin();  // create with the default frequency 1.6KHz
   //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
   
-  myMotor->setSpeed(1500);  // 50 rpm 
+  myMotor->setSpeed(800);  // set rpm
 
   lcd.begin(16,2); // 16 columns, 2 rows
 }
@@ -71,16 +69,15 @@ void loop() {
   lcd.print("RIGHT ");
   
   while(lcd_key != btnUP and lcd_key!= btnDOWN and lcd_key != btnLEFT){ // if btn isn't up, down, or left, then spin a revolution right
-    myMotor->step(revolutions * steps_per_rev, FORWARD, SINGLE); //step the number of revolutions you want
-    rev_right = rev_right + revolutions; // increment the counter
+    myMotor->step(200, FORWARD, DOUBLE); //step the number of revolutions you want
+    rev_right = rev_right + 1; // increment the counter
     lcd.setCursor(7,1);
     lcd.print(rev_right); 
     lcd_key = read_LCD_buttons(); //check for if the btn has changed
-    Serial.println(lcd_key);
   }
   myMotor->release();// release all power from the motor 
   break;
-   
+  
   }
   
   case btnLEFT:
@@ -88,12 +85,11 @@ void loop() {
   lcd.setCursor(0,0);
   lcd.print("LEFT ");
   while(lcd_key != btnUP and lcd_key != btnDOWN and lcd_key != btnRIGHT){ //same code but for left revolution
-    myMotor->step(revolutions * steps_per_rev, BACKWARD, SINGLE);
-    rev_left = rev_left + revolutions;
+    myMotor->step(200, BACKWARD, DOUBLE);
+    rev_left = rev_left + 1;
     lcd.setCursor(7,0);
     lcd.print(rev_left);
     lcd_key = read_LCD_buttons();
-    Serial.println(lcd_key);
   }
   myMotor->release();
   break;
