@@ -1,2 +1,2 @@
 # Tetrode-Spinner
-Make an affordable tetrode spinner to spin your electrodes together! To be continued...
+Make an affordable tetrode spinner to spin your electrodes together! (Actually document this later)
